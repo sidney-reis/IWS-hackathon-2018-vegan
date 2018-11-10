@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ActivityIndicator } from 'react-native';
-
 import IconImage from './Image';
 import colors from '../constants/Colors';
 
