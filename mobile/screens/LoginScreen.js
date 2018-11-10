@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import styled, { css } from "styled-components";
+import React, { Component } from 'react';
 
-import ScreenContainer from "../components/ScreenContainer";
-import FormInput from "../components/FormInput";
-import SpinnerButton from "../components/SpinnerButton";
-import FormContainer from "../components/FormContainer";
+import ScreenContainer from '../components/ScreenContainer';
+import FormInput from '../components/FormInput';
+import Button from '../components/Button';
+import Image from '../components/Image';
+import FormContainer from '../components/FormContainer';
 
 export default class LoginScreen extends Component {
   state = {
-    username: "",
-    password: "",
+    username: '',
+    password: '',
     isRequesting: false,
     error: null
   };
@@ -31,10 +31,10 @@ export default class LoginScreen extends Component {
       try {
         const responseMock = await Promise.resolve({
           success: true,
-          data: { token: "myToken" }
+          data: { token: 'myToken' }
         });
         console.log(navigation);
-        navigation.navigate("Main", {
+        navigation.navigate('Main', {
           token: responseMock.data.token
         });
       } catch (error) {
@@ -48,27 +48,36 @@ export default class LoginScreen extends Component {
   render() {
     const { username, password, isRequesting } = this.state;
     return (
-      <ScreenContainer centerContent>
+      <ScreenContainer
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+        source={require('../assets/images/login_bg.png')}
+      >
+        <Image
+          style={{ marginBottom: 47 }}
+          source={require('../assets/images/logo.png')}
+        />
         <FormContainer>
           <FormInput
             value={username}
             placeholder="Username"
             onChangeText={this.onUpdateUsername}
-            style={{ marginBottom: 5 }}
           />
           <FormInput
             value={password}
             placeholder="Password"
             onChangeText={this.onUpdatePassword}
             secureTextEntry
-            style={{ marginBottom: 5 }}
-          />
-          <SpinnerButton
-            onPress={this.onSubmitForm}
-            isLoading={isRequesting}
-            label="Login"
           />
         </FormContainer>
+        <Button
+          onPress={this.onSubmitForm}
+          isLoading={isRequesting}
+          label="Login"
+          style={{ marginTop: 87 }}
+        />
       </ScreenContainer>
     );
   }
