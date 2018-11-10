@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import styled, { css } from 'styled-components/native';
+import React, { Component } from "react";
+import styled, { css } from "styled-components/native";
 
-import colors from '../constants/Colors';
+import colors from "../constants/Colors";
 
 const containerStyle = css`
   flex: 1;
-  align-items: ${props => (props.centerContent ? 'center' : 'flex-start')};
-  justify-content: ${props => (props.centerContent ? 'center' : 'flex-start')};
+  align-items: ${props => (props.centerContent ? "center" : "flex-start")};
+  justify-content: ${props => (props.centerContent ? "center" : "flex-start")};
   background-color: ${colors.background};
 `;
 
@@ -20,13 +20,9 @@ const ImageContainer = styled.ImageBackground`
 
 export default ({ children, centerContent, source }) =>
   source ? (
-    <ImageContainer
-      resizeMode="cover"
-      source={source}
-      centerContent={centerContent}
-    >
+    <ImageContainer resizeMode="cover" source={source}>
       {children}
     </ImageContainer>
   ) : (
-    <Container>{children}</Container>
+    <Container centerContent={centerContent}>{children}</Container>
   );
