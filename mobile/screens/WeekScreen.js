@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components/native';
+import styled from '@emotion/native';
 
 import ScreenContainer from '../components/ScreenContainer';
 import Text from '../components/Text';

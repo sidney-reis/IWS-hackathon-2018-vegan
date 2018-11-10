@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
+import { css } from '@emotion/native';
 
 import ScreenContainer from '../components/ScreenContainer';
 import FormInput from '../components/FormInput';
-import SpinnerButton from '../components/SpinnerButton';
+import Button from '../components/Button';
+import Logo from '../components/Logo';
 import FormContainer from '../components/FormContainer';
 
 export default class LoginScreen extends Component {
@@ -49,29 +50,37 @@ export default class LoginScreen extends Component {
     const { username, password, isRequesting } = this.state;
     return (
       <ScreenContainer
-        source={require('../assets/images/bg-blur.jpg')}
-        centerContent
+        style={css`
+          align-items: center;
+          justify-content: center;
+        `}
+        statusBarStyle="light-content"
+        source={require('../assets/images/login_bg.png')}
       >
+        <Logo
+          size={Logo.SIZES.base}
+          style={css`
+            margin-bottom: 47;
+          `}
+        />
         <FormContainer>
           <FormInput
             value={username}
             placeholder="Username"
             onChangeText={this.onUpdateUsername}
-            style={{ marginBottom: 5 }}
           />
           <FormInput
             value={password}
             placeholder="Password"
             onChangeText={this.onUpdatePassword}
             secureTextEntry
-            style={{ marginBottom: 5 }}
-          />
-          <SpinnerButton
-            onPress={this.onSubmitForm}
-            isLoading={isRequesting}
-            label="Login"
           />
         </FormContainer>
+        <Button
+          onPress={this.onSubmitForm}
+          label="Login"
+          style={{ marginTop: 87 }}
+        />
       </ScreenContainer>
     );
   }
