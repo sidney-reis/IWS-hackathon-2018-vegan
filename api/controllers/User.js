@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/UserModel');
+const Challenge = require('../models/ChallengeModel');
 
 const app = express.Router();
 module.exports = app;
@@ -33,19 +34,34 @@ app.post('/login', async (req, res) => {
   }
 });
 
-const getThreeChallenges = (user) => {
+const getThreeChallenges = async (user) => {
 
 };
 
 app.post('/results', async (req, res) => {
   try {
-    const { user, amount } = req.body;
-    // atualizar level
-    // atualizar completed challenges
+    const { userId, amount } = req.body;
+    const user = await User.findById(userId);
+    const { currentChallenge } = user;
+    const userSucceeded = amount === currentChallenge.amount;
     // gerar 3 novas challenges
-    getThreeChallenges(user);
+    const { newChallenges, newUserLevel } = await getThreeChallenges(user, userSucceeded);
 
-    // cospe se foi BOM ou RUIM e novas 3 challenges
+    // atualizar level OK
+    user.currentLevel = newUserLevel;
+    if (userSucceeded) {
+      // atualizar completed challenges OK
+      user.completedChallenges.push(currentChallenge);
+      if (!user.completedLevelChallenges) {
+        user.completedChallenges = 0;
+      }
+      user.completedLevelChallenges += 1;
+    }
+
+    await user.save();
+
+    // cospe se foi BOM ou RUIM e novas 3 challenges OK
+    return res.status(201).send({ userSucceeded, newChallenges });
   } catch (err) {
     return res.status(500);
   }

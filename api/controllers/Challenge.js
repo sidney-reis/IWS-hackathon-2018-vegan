@@ -15,26 +15,11 @@ app.post('/challenges', async (req, res) => {
 
 app.get('/initialChallenges', async (req, res) => {
   try {
-    // TODO: retornar 3 challenges inicias
+    await Challenge.find({ level: 0 }).limit(3);
+    return res.status(201);
   } catch (err) {
     return res.status(500).send(err);
   }
 });
 
 app.post('/');
-
-// app.post('/login', async (req, res) => {
-//   try {
-//     const user = await User.find({
-//       username: req.body.username,
-//       password: req.body.password,
-//     }).exec();
-//     if (user.length) {
-//       return res.status(200).send('Show');
-//     }
-
-//     return res.status(401).send('Nao show');
-//   } catch (err) {
-//     return res.status(500);
-//   }
-// });
