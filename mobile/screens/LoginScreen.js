@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
+import React, { Component } from "react";
+import styled, { css } from "styled-components";
 
-import ScreenContainer from '../components/ScreenContainer';
-import FormInput from '../components/FormInput';
-import SpinnerButton from '../components/SpinnerButton';
-import FormContainer from '../components/FormContainer';
+import ScreenContainer from "../components/ScreenContainer";
+import FormInput from "../components/FormInput";
+import SpinnerButton from "../components/SpinnerButton";
+import FormContainer from "../components/FormContainer";
 
 export default class LoginScreen extends Component {
   state = {
-    username: '',
-    password: '',
+    username: "",
+    password: "",
     isRequesting: false,
     error: null
   };
@@ -31,10 +31,10 @@ export default class LoginScreen extends Component {
       try {
         const responseMock = await Promise.resolve({
           success: true,
-          data: { token: 'myToken' }
+          data: { token: "myToken" }
         });
         console.log(navigation);
-        navigation.navigate('Main', {
+        navigation.navigate("Main", {
           token: responseMock.data.token
         });
       } catch (error) {
@@ -48,10 +48,7 @@ export default class LoginScreen extends Component {
   render() {
     const { username, password, isRequesting } = this.state;
     return (
-      <ScreenContainer
-        source={require('../assets/images/bg-blur.jpg')}
-        centerContent
-      >
+      <ScreenContainer centerContent>
         <FormContainer>
           <FormInput
             value={username}
