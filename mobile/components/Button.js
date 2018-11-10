@@ -1,7 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-
-import { ActivityIndicator } from 'react-native';
+import styled from '@emotion/native';
 
 import Text from './Text';
 import colors from '../constants/Colors';
@@ -27,11 +25,12 @@ const Label = styled(Text)`
   color: ${colors.background.base};
 `;
 
-export default (SpinnerButton = ({ label, onPress, style, isLoading }) => {
+const Button = ({ label, onPress, style, isLoading }) => {
   return (
     <ButtonContainer style={style} onPress={onPress}>
       <Label>{label}</Label>
-      {isLoading && <ActivityIndicator />}
     </ButtonContainer>
   );
-});
+};
+
+export default Button;

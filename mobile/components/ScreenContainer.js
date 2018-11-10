@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import styled, { css } from 'styled-components/native';
+import React from 'react';
+import { StatusBar } from 'react-native';
+import styled from '@emotion/native';
 
 import colors from '../constants/Colors';
 
@@ -8,8 +9,20 @@ const ImageContainer = styled.ImageBackground`
   background-color: ${colors.background.base};
 `;
 
-export default ({ children, style, source }) => (
+export default ({
+  children,
+  style,
+  source,
+  statusBarStyle = 'dark-content',
+  statusBarColor = 'transparent',
+  statusBarTransparent = true
+}) => (
   <ImageContainer style={style} resizeMode="cover" source={source}>
+    <StatusBar
+      barStyle={statusBarStyle}
+      backgroundColor={statusBarColor}
+      translucent={statusBarTransparent}
+    />
     {children}
   </ImageContainer>
 );

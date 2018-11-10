@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { css } from '@emotion/native';
 
 import ScreenContainer from '../components/ScreenContainer';
 import FormInput from '../components/FormInput';
 import Button from '../components/Button';
-import Image from '../components/Image';
+import Logo from '../components/Logo';
 import FormContainer from '../components/FormContainer';
 
 export default class LoginScreen extends Component {
@@ -49,15 +50,18 @@ export default class LoginScreen extends Component {
     const { username, password, isRequesting } = this.state;
     return (
       <ScreenContainer
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
+        style={css`
+          align-items: center;
+          justify-content: center;
+        `}
+        statusBarStyle="light-content"
         source={require('../assets/images/login_bg.png')}
       >
-        <Image
-          style={{ marginBottom: 47 }}
-          source={require('../assets/images/logo.png')}
+        <Logo
+          size={Logo.SIZES.base}
+          style={css`
+            margin-bottom: 47;
+          `}
         />
         <FormContainer>
           <FormInput
@@ -74,7 +78,6 @@ export default class LoginScreen extends Component {
         </FormContainer>
         <Button
           onPress={this.onSubmitForm}
-          isLoading={isRequesting}
           label="Login"
           style={{ marginTop: 87 }}
         />

@@ -1,10 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/native';
 
 import colors from '../constants/Colors';
 
 const Text = styled.Text`
-  color: #f00;
+  color: ${colors.text.base};
 `;
 
 export default props => {

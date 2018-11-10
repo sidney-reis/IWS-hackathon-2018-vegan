@@ -6,10 +6,11 @@ export default (colors = {
     base: 'purple'
   },
   background: {
-    base: '#ffffff'
+    base: '#ffffff',
+    darker: '#fafafa'
   },
   text: {
-    base: '#222222',
+    base: '#000000',
     light: '#d1d1d1'
   }
 });

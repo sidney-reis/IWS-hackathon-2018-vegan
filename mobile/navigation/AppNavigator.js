@@ -9,6 +9,6 @@ export default createSwitchNavigator(
     Main: MainNavigator
   },
   {
-    initialRouteName: 'Login'
+    initialRouteName: 'Main'
   }
 );
