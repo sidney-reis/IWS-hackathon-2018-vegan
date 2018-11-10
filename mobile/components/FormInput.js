@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import styled from 'styled-components/native';
+import styled from '@emotion/native';
 
 import colors from '../constants/Colors';
 
 const TextInput = styled.TextInput`
-  height: 40px;
+  width: 100%;
+  padding: 12px 17px;
+  margin-bottom: 16px;
+  border-width: 1px;
+  border-radius: 10px;
+  border-color: ${colors.text.light};
   background-color: rgba(255, 255, 255, 0.8);
-  border: 0;
-  border-radius: 4px;
-  color: ${colors.text};
-  padding: 0 12px;
+  color: ${colors.text.light};
 `;
 
 const FormInput = ({
@@ -23,7 +25,7 @@ const FormInput = ({
     <TextInput
       value={value}
       placeholder={placeholder}
-      placeholderTextColor={`${colors.text}99`}
+      placeholderTextColor={`${colors.text.base}99`}
       secureTextEntry={secureTextEntry}
       style={style}
       onChangeText={onChangeText}
