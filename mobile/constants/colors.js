@@ -3,7 +3,8 @@ export default (colors = {
     base: '#fca429'
   },
   secondary: {
-    base: '#d8d8d8'
+    base: '#d8d8d8',
+    darker: '#767676'
   },
   background: {
     base: '#ffffff',

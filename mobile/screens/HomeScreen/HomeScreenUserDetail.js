@@ -26,11 +26,10 @@ const CompletedChallenges = styled(Text)`
 `;
 
 const UserDetail = ({ user, collapsed }) => {
-  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   const { username, completedChallenges } = user;
 
   return (
-    <Section collapsed={collapsed}>
+    <Section horizontal={collapsed}>
       <Avatar
         style={css`
           margin-top: 20px;

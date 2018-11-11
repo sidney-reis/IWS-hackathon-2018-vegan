@@ -58,7 +58,7 @@ export default createStackNavigator(
     }
   },
   {
-    initialRouteName: 'Profile',
+    initialRouteName: 'Home',
     navigationOptions: {
       headerStyle: {
         elevation: 0

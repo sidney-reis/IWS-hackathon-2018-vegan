@@ -11,7 +11,7 @@ const ButtonContainer = styled.TouchableOpacity`
   width: 180px;
   height: 44px;
   border-radius: 22px;
-  background-color: ${colors.primary.base};
+  background-color: ${props => colors[props.color][props.variant]};
   padding: 3px 10px;
   height: 40px;
   shadow-color: #d5d5d5;
@@ -25,9 +25,21 @@ const Label = styled(Text)`
   color: ${colors.background.base};
 `;
 
-const Button = ({ label, onPress, style, isLoading }) => {
+const Button = ({
+  label,
+  onPress,
+  style,
+  color = 'primary',
+  variant = 'base'
+}) => {
   return (
-    <ButtonContainer style={style} onPress={onPress} activeOpacity={0.7}>
+    <ButtonContainer
+      style={style}
+      onPress={onPress}
+      activeOpacity={0.7}
+      color={color}
+      variant={variant}
+    >
       <Label>{label}</Label>
     </ButtonContainer>
   );

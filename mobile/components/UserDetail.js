@@ -1,5 +1,4 @@
 import React from 'react';
-import { LayoutAnimation } from 'react-native';
 import styled, { css } from '@emotion/native';
 
 import { h1, h3 } from '../assets/styles/textStyles';
