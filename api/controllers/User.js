@@ -98,3 +98,22 @@ app.post('/results', async (req, res) => {
     return res.status(500);
   }
 });
+
+app.post('/pickChallenge', async (req, res) => {
+  try {
+    const { userId, challengeId } = req.body;
+    const user = await User.findById(userId);
+    const challenge = await Challenge.findById(challengeId);
+
+    user.currentChallenge = challenge;
+    if (user.level === 6 && challenge.level !== 6) {
+      user.level -= 1;
+    }
+
+    await user.save();
+
+    return res.status(201);
+  } catch (err) {
+    return res.status(500);
+  }
+});
