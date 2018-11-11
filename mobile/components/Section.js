@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/native';
 import { LinearGradient } from 'expo';
 
-import colors from '../constants/Colors';
+import colors from '../constants/colors';
 
 const Wrapper = styled.View``;
 
@@ -18,9 +18,10 @@ const Section = ({
   children,
   backgroundVariant = 'base',
   style,
+  wrapperStyle,
   hasShadow
 }) => (
-  <Wrapper>
+  <Wrapper style={wrapperStyle}>
     <Container
       style={style}
       resizeMode="cover"

@@ -2,7 +2,7 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import styled from '@emotion/native';
 
-import colors from '../constants/Colors';
+import colors from '../constants/colors';
 
 const ImageContainer = styled.ImageBackground`
   flex: 1;

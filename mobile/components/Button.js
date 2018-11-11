@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/native';
 
 import Text from './Text';
-import colors from '../constants/Colors';
+import colors from '../constants/colors';
 
 const ButtonContainer = styled.TouchableOpacity`
   flex-direction: row;
@@ -27,7 +27,7 @@ const Label = styled(Text)`
 
 const Button = ({ label, onPress, style, isLoading }) => {
   return (
-    <ButtonContainer style={style} onPress={onPress}>
+    <ButtonContainer style={style} onPress={onPress} activeOpacity={0.7}>
       <Label>{label}</Label>
     </ButtonContainer>
   );

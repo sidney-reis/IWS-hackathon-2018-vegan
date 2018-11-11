@@ -4,7 +4,7 @@ import styled, { css } from '@emotion/native';
 import Section from '../../components/Section';
 import Text from '../../components/Text';
 import Icon from '../../components/Icon';
-import { smallTextStyle } from '../../assets/styles/Text';
+import { small } from '../../assets/styles/textStyles';
 
 const Row = styled.View`
   flex-direction: row;
@@ -14,7 +14,7 @@ const Row = styled.View`
 `;
 
 const Tip = styled(Text)`
-  ${smallTextStyle};
+  ${small};
 `;
 
 const HomeScreenTip = ({ tip }) => {
