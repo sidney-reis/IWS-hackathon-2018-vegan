@@ -33,14 +33,6 @@ const user = {
       impact: 'Eating different kinds of fruits is key to a healthier life.',
       amount: 3,
       theme: 'meat'
-    },
-    {
-      title: 'Cows are friends',
-      description: 'Do not eat red meat for at least 3 days this week.',
-      impact:
-        'You eat 30% less animal base products, this corresponds to 150 liters of water saved',
-      amount: 3,
-      theme: 'meat'
     }
   ]
 };

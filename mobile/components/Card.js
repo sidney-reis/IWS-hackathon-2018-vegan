@@ -3,7 +3,7 @@ import styled from '@emotion/native';
 
 import colors from '../constants/colors';
 
-const Wrapper = styled.View`
+const Wrapper = styled.TouchableOpacity`
   padding: 13px 35px;
 `;
 
@@ -17,8 +17,8 @@ const Container = styled.View`
   elevation: 7;
 `;
 
-const Card = ({ children, style }) => (
-  <Wrapper>
+const Card = ({ children, style, onPress }) => (
+  <Wrapper onPress={onPress} activeOpacity={0.8}>
     <Container style={style}>{children}</Container>
   </Wrapper>
 );
