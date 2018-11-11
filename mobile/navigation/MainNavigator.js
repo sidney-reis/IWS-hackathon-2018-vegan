@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation';
 
 import HomeScreen from '../screens/HomeScreen';
 import ChallengeTips from '../screens/ChallengeTipsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
@@ -11,11 +12,23 @@ export default createStackNavigator(
   {
     Home: {
       screen: HomeScreen,
-      navigationOptions: {
-        headerLeft: <Icon name="menu" size={22} />,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: (
+          <Icon
+            name="menu"
+            size={22}
+            onPress={() => navigation.navigate('Login')}
+          />
+        ),
         headerTitle: <Logo size="small" />,
-        headerRight: <Icon name="profile" size={32} />
-      }
+        headerRight: (
+          <Icon
+            name="profile"
+            size={32}
+            onPress={() => navigation.navigate('Profile')}
+          />
+        )
+      })
     },
     ChallengeTips: {
       screen: ChallengeTips,
@@ -29,10 +42,23 @@ export default createStackNavigator(
           />
         )
       })
+    },
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: (
+          <Icon
+            name="leftArrow"
+            size={22}
+            onPress={() => navigation.pop()}
+            label="Back"
+          />
+        )
+      })
     }
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Profile',
     navigationOptions: {
       headerStyle: {
         elevation: 0
