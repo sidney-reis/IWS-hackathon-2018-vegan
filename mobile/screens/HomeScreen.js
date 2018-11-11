@@ -8,19 +8,22 @@ import HomeScreenTip from './HomeScreen/HomeScreenTip';
 import HomeScreenChallengeProgress from './HomeScreen/HomeScreenChallengeProgress';
 import UserContainer from '../state/UserContainer';
 import HomeScreenConcluded from './HomeScreen/HomeScreenConcluded';
+import UserService from '../services/User';
 
 class HomeScreen extends Component {
   state = {
     currentChallengeProgress: 0,
-    currentChallengeSuccess: 0
+    currentChallengeSuccess: 0,
+    newChallenges: [],
+    incrementerForTest: 0
   };
 
   async componentDidMount() {
     const currentChallengeSuccess = await SecureStore.getItemAsync(
-      `${this.props.user._id}${currentChallengeSuccess}`
+      `${this.props.user._id}currentChallengeSuccess`
     );
     const currentChallengeProgress = await SecureStore.getItemAsync(
-      `${this.props.user._id}${currentChallengeProgress}`
+      `${this.props.user._id}currentChallengeProgress`
     );
     this.setState({
       currentChallengeSuccess: Number(currentChallengeSuccess),
@@ -30,24 +33,24 @@ class HomeScreen extends Component {
 
   goToTips = challenge => {
     const { navigation } = this.props;
-    navigation.navigate('ChallengeTips', { challenge });
+    this.setState(state => ({ incrementerForTest: state.incrementerForTest + 1}))
   };
 
-  goToSelectChallenge = challenge => {
-    console.log(challenge);
+  goToSelectChallenge = () => {
+    console.log(this.state.newChallenges);
     const { navigation } = this.props;
-    navigation.navigate('ChallengeTips', { challenge });
+    navigation.navigate('ChallengeSelect', { challengesToPick: this.state.newChallenges });
   };
 
-  onGiveFeedback = success => {
+  onGiveFeedback = (success, isLast) => {
     this.setState(
       state => ({
-        currentChallengeProgress: state.currentChallengeProgress + 1
+        currentChallengeProgress: state.currentChallengeProgress + 1,
       }),
       async () => {
         try {
           await SecureStore.setItemAsync(
-            `${this.props.user._id}${currentChallengeProgress}`,
+            `${this.props.user._id}currentChallengeProgress`,
             `${this.state.currentChallengeProgress}`
           );
 
@@ -60,7 +63,7 @@ class HomeScreen extends Component {
               async () => {
                 try {
                   await SecureStore.setItemAsync(
-                    `${this.props.user._id}${currentChallengeSuccess}`,
+                    `${this.props.user._id}currentChallengeSuccess`,
                     `${currentChallengeSuccess + 1}`
                   );
                 } catch (err) {
@@ -68,6 +71,11 @@ class HomeScreen extends Component {
                 }
               }
             );
+          }
+          if(isLast) {
+            console.log('>>>>>>>> last:', isLast);
+            const resp = await UserService.weekResult({userId: this.props.user._id, amount: this.state.currentChallengeSuccess });
+            this.setState({ newChallenges: resp.data.newChallenges });
           }
         } catch (err) {
           console.log(err);
@@ -81,7 +89,9 @@ class HomeScreen extends Component {
 
     const startDate = dayjs(user.currentChallengeStart);
     const currentDay = dayjs().diff(startDate, 'days');
-    const isComplete = true;
+    const isComplete = currentDay  + user.incrementerForTest >= 7;
+    // console.warn(isComplete)
+    // const isComplete = true;
 
     const hasPendingDays = currentDay - user.currentChallengeProgress > 0;
 
@@ -102,7 +112,7 @@ class HomeScreen extends Component {
             onGiveFeedback={this.onGiveFeedback}
           />
         )}
-        {isComplete && (
+        {isComplete && !hasPendingDays && (
           <HomeScreenConcluded
             currentChallenge={user.currentChallenge}
             goToSelectChallenge={this.goToSelectChallenge}

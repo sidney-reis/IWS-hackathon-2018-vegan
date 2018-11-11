@@ -40,7 +40,7 @@ const HomeScreenChallengeProgress = ({
   onGiveFeedback,
   currentDay
 }) => {
-  const { currentChallenge, currentChallengeProgress } = user;
+  let { currentChallenge, currentChallengeProgress } = user;
 
   const ordinals = [
     'first',
@@ -69,14 +69,14 @@ const HomeScreenChallengeProgress = ({
               margin-bottom: 10px;
             `}
             label="I got it!"
-            onPress={() => onGiveFeedback(true)}
+            onPress={() => onGiveFeedback(true, currentDay - currentChallengeProgress === 1)}
           />
           <Button
             style={css`
               margin-bottom: 10px;
             `}
             label="Not yet, but I will!!"
-            onPress={() => onGiveFeedback(false)}
+            onPress={() => onGiveFeedback(false, currentDay - currentChallengeProgress === 1)}
             color="secondary"
             variant="darker"
           />
