@@ -17,6 +17,7 @@ const Username = styled(Text)`
   ${h1};
   margin-top: 10px;
   font-size: 20px;
+  text-align: center;
 `;
 
 const CompletedChallenges = styled(Text)`

@@ -57,8 +57,8 @@ const HomeScreenChallengeProgress = ({
   return (
     <Section>
       <WeekNumber capitalize>Week</WeekNumber>
-      <ChallengeTitle capitalize>{currentChallenge.title}</ChallengeTitle>
-      <Description>{currentChallenge.description}</Description>
+      <ChallengeTitle capitalize>{currentChallenge ? currentChallenge.title : ''}</ChallengeTitle>
+      <Description>{currentChallenge ? currentChallenge.description : ''}</Description>
       {hasPendingQuestions && (
         <Fragment>
           <Question>{`How was your ${

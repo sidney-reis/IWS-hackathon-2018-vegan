@@ -8,7 +8,7 @@ export default class User {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: {
+      data: {
         userId: id
       }
     };
@@ -22,7 +22,7 @@ export default class User {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: {
+      data: {
         username,
         password,
       }
@@ -37,7 +37,7 @@ export default class User {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: {
+      data: {
         username,
         password,
       }
@@ -52,7 +52,7 @@ export default class User {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: {
+      data: {
         userId,
         amount,
       }

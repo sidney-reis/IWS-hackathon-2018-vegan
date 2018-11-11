@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
 import ChallengeTips from '../screens/ChallengeTipsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ChallengeSelectScreen from '../screens/ChallengeSelectScreen';
 
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
@@ -55,7 +56,19 @@ export default createStackNavigator(
           />
         )
       })
-    }
+    },
+    ChallengeSelect: {
+      screen: ChallengeSelectScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: (
+          <Icon
+            name="menu"
+            size={22}
+            onPress={() => navigation.navigate('Login')}
+          />
+        )
+      })
+    },
   },
   {
     initialRouteName: 'Home',

@@ -26,7 +26,7 @@ const CompletedChallenges = styled(Text)`
 
 const UserDetail = ({ user, horizontal }) => {
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  const { username, completedChallenges } = user.state;
+  const { username, completedChallenges } = user;
 
   return (
     <Section horizontal={horizontal}>

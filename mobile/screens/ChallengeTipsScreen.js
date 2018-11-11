@@ -6,7 +6,6 @@ import Placeholder from '../components/Placeholder';
 
 export default class ChallengeTipsScreen extends Component {
   render() {
-    console.log(this.props.navigation);
     const challenge = this.props.navigation.getParam('challenge', null);
 
     return (

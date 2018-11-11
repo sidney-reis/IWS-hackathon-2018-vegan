@@ -1,10 +1,6 @@
-import { SET_USER } from '../actions/';
+import { SET_USER } from '../actions/users';
 
-const defaultState = {
-  user: {}
-};
-
-export default function users(state = defaultState, action) {
+export default function users(state = {}, action) {
   const { type, payload } = action;
 
   switch (type) {
