@@ -22,11 +22,10 @@ const UserSchema = new Schema({
     default: 0,
   },
   currentChallenge: {
-    type: { type: Schema.Types.ObjectId, ref: 'ChallengeModel' },
+    type: Schema.Types.ObjectId, ref: 'ChallengeModel',
   },
-  completedChallenges: {
-    type: [{ type: Schema.Types.ObjectId, ref: 'ChallengeModel' }],
-  },
+  completedChallenges:
+    [{ type: Schema.Types.ObjectId, ref: 'ChallengeModel' }],
 });
 
 module.exports = UserSchema;

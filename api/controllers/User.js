@@ -21,7 +21,9 @@ app.post('/users', async (req, res) => {
 
 app.post('/user', async (req, res) => {
   try {
-    const user = await User.findById(req.body.userId).populate('ChallengeModel');
+    const user = await User.findById(req.body.userId)
+      .populate('currentChallenge')
+      .populate('completedChallenges');
     return res.status(201).send({ user });
   } catch (err) {
     return res.status(500).send(err);
@@ -48,7 +50,7 @@ app.post('/login', async (req, res) => {
 const getThreeChallenges = async (user, success) => {
   const newChallenges = [];
   let newLevel;
-  if (user.level === 6) {
+  if (user.currentLevel === 6) {
     const vegan = await Challenge.findOne({ title: 'Vegan' }).exec();
     newChallenges.push(vegan);
 
@@ -66,9 +68,9 @@ const getThreeChallenges = async (user, success) => {
       newChallenges.push(result);
     }
 
-    newLevel = user.level;
+    newLevel = user.currentLevel;
   } else {
-    newLevel = user.completedLevelChallenges === 10 ? user.level + 1 : user.level;
+    newLevel = user.completedLevelChallenges === 10 ? user.currentLevel + 1 : user.currentLevel;
 
     const query = Challenge.find({})
       .where('_id').nin(user.completedChallenges)
@@ -77,7 +79,7 @@ const getThreeChallenges = async (user, success) => {
     let challenges = await query.where('level').in(newLevel).exec();
 
     if (challenges.length === 0) {
-      newLevel = user.level + 1;
+      newLevel = user.currentLevel + 1;
       challenges = await query.where('level').in(newLevel).exec();
     }
     newChallenges.push(challenges);
@@ -89,22 +91,26 @@ const getThreeChallenges = async (user, success) => {
 app.post('/results', async (req, res) => {
   try {
     const { userId, amount } = req.body;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate('currentChallenge').populate('completedChallenges');
     const { currentChallenge } = user;
-    const userSucceeded = amount === currentChallenge.amount;
+    const userSucceeded = amount >= currentChallenge.amount;
+
+    if (userSucceeded) {
+      // atualizar completed challenges OK
+      const updatedCompletedChallenges = [currentChallenge, ...user.completedChallenges];
+      user.completedChallenges = updatedCompletedChallenges;
+
+      if (user.completedLevelChallenges >= 10) {
+        user.completedLevelChallenges = 0;
+      }
+      user.completedLevelChallenges += 1;
+    }
     // gerar 3 novas challenges
     const { newChallenges, newUserLevel } = await getThreeChallenges(user, userSucceeded);
 
     // atualizar level OK
     user.currentLevel = newUserLevel;
-    if (userSucceeded) {
-      // atualizar completed challenges OK
-      user.completedChallenges.push(currentChallenge);
-      if (!user.completedLevelChallenges) {
-        user.completedChallenges = 0;
-      }
-      user.completedLevelChallenges += 1;
-    }
+    user.currentChallenge = null;
 
     await user.save();
 
@@ -122,8 +128,8 @@ app.post('/pickChallenge', async (req, res) => {
     const challenge = await Challenge.findById(challengeId);
 
     user.currentChallenge = challenge;
-    if (user.level === 6 && challenge.level !== 6) {
-      user.level -= 1;
+    if (user.currentLevel === 6 && challenge.level !== 6) {
+      user.currentLevel -= 1;
     }
 
     await user.save();
