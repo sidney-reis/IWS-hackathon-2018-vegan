@@ -8,7 +8,6 @@ import WeeklyProgressBar from '../../components/WeeklyProgressBar';
 
 import { h1, h2, body } from '../../assets/styles/textStyles';
 import colors from '../../constants/colors';
-import { alignContentCenter } from '../../assets/styles/layoutStyles';
 
 const WeekNumber = styled(Text)`
   ${h2};
@@ -25,23 +24,24 @@ const ChallengeTitle = styled(Text)`
 const Description = styled(Text)`
   ${body};
   height: 64px;
+
   text-align: center;
 `;
 
-const HomeScreenChallengeProgress = ({ user }) => {
-  const { currentChallenge } = user.state;
+const HomeScreenChallengeProgress = ({ user, goToTips}) => {
+  const { currentChallenge, currentChallengeProgress } = user;
 
   return (
     <Section>
       <WeekNumber capitalize>Week</WeekNumber>
       <ChallengeTitle capitalize>{currentChallenge.title}</ChallengeTitle>
       <Description>{currentChallenge.description}</Description>
-      <Button label="Tips" />
+      <Button label="Tips" onPress={goToTips} />
       <WeeklyProgressBar
         style={css`
           margin-top: 32px;
         `}
-        completed={2}
+        completed={currentChallengeProgress}
       />
     </Section>
   );

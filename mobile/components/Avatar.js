@@ -9,8 +9,8 @@ const sizes = {
 };
 
 const LogoImage = styled(Image)`
-  height: ${props => sizes[props.size]};
-  width: ${props => sizes[props.size]};
+  height: ${props => sizes[props.size] + 'px'};
+  width: ${props => sizes[props.size] + 'px'};
 `;
 
 const Avatar = ({ style, source, size = Avatar.SIZES.base }) => {

@@ -8,36 +8,26 @@ const Container = styled.View`
   flex-direction: row;
   width: 100%;
   height: 6px;
-  background-color: ${colors.secondary.base};
 `;
 
-const Progress = styled.View`
-  width: ${props => (props.completed / 7) * 100 + '%'};
+const Counter = styled.View`
+  flex: 1;
   height: 6px;
-  background-color: ${colors.primary.base};
-`;
-
-const SeparatorContainer = styled.View`
-  ${absoluteFill};
-  flex-direction: row;
-  justify-content: space-evenly;
-`;
-
-const Separator = styled.View`
-  width: 10px;
-  height: 6px;
-  background-color: ${colors.background.base};
+  margin: 0 5px;
+  background-color: ${props =>
+    props.success ? colors.primary.base : colors.secondary.base};
 `;
 
 const WeeklyProgressBar = ({ style, completed }) => {
   return (
     <Container style={style}>
-      <Progress completed={completed} />
-      <SeparatorContainer>
-        {[...Array(6)].map((e, i) => (
-          <Separator key={i} />
-        ))}
-      </SeparatorContainer>
+      {completed.map((success, index) => (
+        <Counter key={index} success={success} />
+      ))}
+
+      {[...Array(7 - completed.length)].map((e, index) => (
+        <Counter key={index} />
+      ))}
     </Container>
   );
 };

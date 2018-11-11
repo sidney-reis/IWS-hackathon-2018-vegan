@@ -7,11 +7,11 @@ import colors from '../constants/colors';
 const Wrapper = styled.View``;
 
 const Container = styled.View`
-  padding: 24px;
+  flex-direction: ${props => (props.horizontal ? 'row' : 'column')};
   align-items: center;
   justify-content: center;
+  padding: 24px;
   background-color: ${props => colors.background[props.backgroundVariant]};
-  elevation: ${props => (props.hasShadow ? '6' : '0')};
 `;
 
 const Section = ({
@@ -19,13 +19,15 @@ const Section = ({
   backgroundVariant = 'base',
   style,
   wrapperStyle,
-  hasShadow
+  hasShadow,
+  horizontal
 }) => (
   <Wrapper style={wrapperStyle}>
     <Container
       style={style}
       resizeMode="cover"
       backgroundVariant={backgroundVariant}
+      horizontal={horizontal}
     >
       {children}
     </Container>

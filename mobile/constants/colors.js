@@ -11,6 +11,6 @@ export default (colors = {
   },
   text: {
     base: '#000000',
-    light: '#d1d1d1'
+    light: '#767676'
   }
 });
