@@ -34,8 +34,40 @@ app.post('/login', async (req, res) => {
   }
 });
 
-const getThreeChallenges = async (user) => {
+const getThreeChallenges = async (user, success) => {
+  let proposed = [];
+  let newLevel;
+  if (user.level === 6) {
+    const vegan = await Challenge.findOne({ title: 'Vegan' }).exec();
+    proposed.push(vegan);
 
+    if (!success) {
+      const query = Challenge.find({})
+        .where('level', 5)
+        .limit(2);
+
+      let result = await query.where('_id').nin(user.completedChallenges).exec();
+
+      if (result.length < 2) {
+        result = await query.exec();
+      }
+
+      proposed.push(result);
+    }
+
+    newLevel = user.level;
+  } else {
+    newLevel = user.completedLevelChallenges === 10 ? user.level + 1 : user.level;
+    const query = Challenge.find({})
+      .where('_id').nin(user.completedChallenges)
+      .where('level').in(newLevel)
+      .limit(3);
+
+    const challenges = await query.exec();
+    proposed.push(challenges)
+  }
+
+  return { proposed, newLevel };
 };
 
 app.post('/results', async (req, res) => {
