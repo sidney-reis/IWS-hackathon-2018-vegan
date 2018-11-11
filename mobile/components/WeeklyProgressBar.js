@@ -15,18 +15,14 @@ const Counter = styled.View`
   height: 6px;
   margin: 0 5px;
   background-color: ${props =>
-    props.success ? colors.primary.base : colors.secondary.base};
+    props.completed ? colors.primary.base : colors.secondary.base};
 `;
 
 const WeeklyProgressBar = ({ style, completed }) => {
   return (
     <Container style={style}>
-      {completed.map((success, index) => (
-        <Counter key={index} success={success} />
-      ))}
-
-      {[...Array(7 - completed.length)].map((e, index) => (
-        <Counter key={index} />
+      {[...Array(7)].map((e, index) => (
+        <Counter key={index} completed={index < completed} />
       ))}
     </Container>
   );
