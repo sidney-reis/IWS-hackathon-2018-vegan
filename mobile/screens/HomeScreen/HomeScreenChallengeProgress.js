@@ -25,10 +25,11 @@ const ChallengeTitle = styled(Text)`
 const Description = styled(Text)`
   ${body};
   height: 64px;
+
   text-align: center;
 `;
 
-const HomeScreenChallengeProgress = ({ user }) => {
+const HomeScreenChallengeProgress = ({ user, goToTips }) => {
   const { currentChallenge } = user.state;
 
   return (
@@ -36,7 +37,7 @@ const HomeScreenChallengeProgress = ({ user }) => {
       <WeekNumber capitalize>Week</WeekNumber>
       <ChallengeTitle capitalize>{currentChallenge.title}</ChallengeTitle>
       <Description>{currentChallenge.description}</Description>
-      <Button label="Tips" />
+      <Button label="Tips" onPress={goToTips} />
       <WeeklyProgressBar
         style={css`
           margin-top: 32px;

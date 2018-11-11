@@ -5,6 +5,7 @@ import styled from '@emotion/native';
 import WeekScreen from '../screens/WeekScreen';
 import ResultScreen from '../screens/ResultScreen';
 import HomeScreen from '../screens/HomeScreen';
+import ChallengeTips from '../screens/ChallengeTipsScreen';
 
 import Icon from '../components/Icon';
 import Logo from '../components/Logo';
@@ -18,6 +19,19 @@ export default createStackNavigator(
         headerTitle: <Logo size="small" />,
         headerRight: <Icon name="profile" size={32} />
       }
+    },
+    ChallengeTips: {
+      screen: ChallengeTips,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: (
+          <Icon
+            name="leftArrow"
+            size={22}
+            onPress={() => navigation.pop()}
+            label="Back"
+          />
+        )
+      })
     },
     Week: {
       screen: WeekScreen
