@@ -6,7 +6,7 @@ import Section from '../../components/Section';
 import Text from '../../components/Text';
 import { headerStyle, subHeaderStyle } from '../../assets/styles/Text';
 
-const Name = styled(Text)`
+const Username = styled(Text)`
   ${headerStyle};
   margin-top: 10px;
   font-size: 20px;
@@ -18,7 +18,7 @@ const CompletedChallenges = styled(Text)`
 `;
 
 const HomeScreenUserDetail = ({ user }) => {
-  const { name, completedChallenges } = user.state;
+  const { username, completedChallenges } = user.state;
 
   return (
     <Section>
@@ -27,8 +27,10 @@ const HomeScreenUserDetail = ({ user }) => {
           margin-top: 20px;
         `}
       />
-      <Name>{name}</Name>
-      <CompletedChallenges>{`${completedChallenges} challenges concluded`}</CompletedChallenges>
+      <Username>{username}</Username>
+      <CompletedChallenges>{`${
+        completedChallenges.length
+      } challenges concluded`}</CompletedChallenges>
     </Section>
   );
 };

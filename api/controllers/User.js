@@ -47,7 +47,6 @@ app.post('/login', async (req, res) => {
 const getThreeChallenges = async (user, success) => {
   const newChallenges = [];
   let newLevel;
-  if (!user.level) user.level = 0;
   if (user.level === 6) {
     const vegan = await Challenge.findOne({ title: 'Vegan' }).exec();
     newChallenges.push(vegan);
@@ -69,13 +68,17 @@ const getThreeChallenges = async (user, success) => {
     newLevel = user.level;
   } else {
     newLevel = user.completedLevelChallenges === 10 ? user.level + 1 : user.level;
+
     const query = Challenge.find({})
       .where('_id').nin(user.completedChallenges)
-      .where('level')
-      .in(newLevel)
       .limit(3);
 
-    const challenges = await query.exec();
+    let challenges = await query.where('level').in(newLevel).exec();
+
+    if (challenges.length === 0) {
+      newLevel = user.level + 1;
+      challenges = await query.where('level').in(newLevel).exec();
+    }
     newChallenges.push(challenges);
   }
 
