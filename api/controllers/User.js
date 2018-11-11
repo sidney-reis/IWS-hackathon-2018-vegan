@@ -49,14 +49,14 @@ app.post('/login', async (req, res) => {
   }
 });
 
-const getThreeChallenges = async (user, success) => {
+const getThreeChallenges = async (user) => {
   const newChallenges = [];
   let newLevel;
   if (user.currentLevel === 6) {
     const vegan = await Challenge.findOne({ title: 'Vegan' }).exec();
     newChallenges.push(vegan);
 
-    if (!success) {
+    if (!user.lastChallengeSuccess) {
       const query = Challenge.find({})
         .where('level', 5)
         .limit(2);
@@ -97,6 +97,8 @@ app.post('/results', async (req, res) => {
     const { currentChallenge } = user;
     const userSucceeded = amount >= currentChallenge.amount;
 
+    user.lastChallengeSuccess = userSucceeded;
+
     if (userSucceeded) {
       // atualizar completed challenges OK
       const updatedCompletedChallenges = [currentChallenge, ...user.completedChallenges];
@@ -108,7 +110,7 @@ app.post('/results', async (req, res) => {
       user.completedLevelChallenges += 1;
     }
     // gerar 3 novas challenges
-    const { newChallenges, newUserLevel } = await getThreeChallenges(user, userSucceeded);
+    const { newChallenges, newUserLevel } = await getThreeChallenges(user);
 
     // atualizar level OK
     user.currentLevel = newUserLevel;
@@ -118,6 +120,19 @@ app.post('/results', async (req, res) => {
 
     // cospe se foi BOM ou RUIM e novas 3 challenges OK
     return res.status(201).send({ userSucceeded, newChallenges });
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+});
+
+app.get('/nextChallenges', async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await User.findById(userId);
+
+    const { newChallenges } = await getThreeChallenges(user);
+
+    return res.status(200).send(newChallenges);
   } catch (err) {
     return res.status(500).send(err);
   }

@@ -28,6 +28,10 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
+  lastChallengeSuccess: {
+    type: Boolean,
+    default: false
+  },
   completedChallenges:
     [{ type: Schema.Types.ObjectId, ref: 'ChallengeModel' }],
 });
