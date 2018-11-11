@@ -12,10 +12,12 @@ const ChallengeSchema = new Schema({
   description: {
     type: String,
     trim: true,
+    default: '',
   },
   impact: {
     type: String,
     trim: true,
+    default: '',
   },
   amount: {
     type: Number,

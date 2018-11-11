@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const ChallengeSchema = require('./Challenge');
 
 const { Schema } = mongoose;
 
@@ -16,15 +15,17 @@ const UserSchema = new Schema({
   },
   completedLevelChallenges: {
     type: Number,
+    default: 0,
   },
   currentLevel: {
     type: Number,
+    default: 0,
   },
   currentChallenge: {
-    type: ChallengeSchema,
+    type: { type: Schema.Types.ObjectId, ref: 'ChallengeModel' },
   },
   completedChallenges: {
-    type: [ChallengeSchema],
+    type: [{ type: Schema.Types.ObjectId, ref: 'ChallengeModel' }],
   },
 });
 

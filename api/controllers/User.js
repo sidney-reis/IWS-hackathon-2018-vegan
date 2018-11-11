@@ -7,8 +7,9 @@ module.exports = app;
 
 app.post('/users', async (req, res) => {
   try {
-    await User.create({ username: req.body.username, password: req.body.password });
-    return res.status(201).send('User created.');
+    await User.init();
+    const user = await User.create({ username: req.body.username, password: req.body.password });
+    return res.status(201).send({ userId: user._id });
   } catch (err) {
     if (err.name === 'MongoError' && err.code === 11000) {
       return res.status(409).send({ response: 'A user with that username already exists' });
@@ -18,28 +19,38 @@ app.post('/users', async (req, res) => {
   }
 });
 
+app.post('/user', async (req, res) => {
+  try {
+    const user = await User.findById(req.body.userId).populate('ChallengeModel');
+    return res.status(201).send({ user });
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+});
+
 app.post('/login', async (req, res) => {
   try {
-    const user = await User.find({
+    const user = await User.findOne({
       username: req.body.username,
       password: req.body.password,
     }).exec();
-    if (user.length) {
-      return res.status(200).send('Show');
+
+    if (user) {
+      return res.status(200).send({ userId: user._id });
     }
 
     return res.status(401).send('Nao show');
   } catch (err) {
-    return res.status(500);
+    return res.status(500).send(err);
   }
 });
 
 const getThreeChallenges = async (user, success) => {
-  let proposed = [];
+  const newChallenges = [];
   let newLevel;
   if (user.level === 6) {
     const vegan = await Challenge.findOne({ title: 'Vegan' }).exec();
-    proposed.push(vegan);
+    newChallenges.push(vegan);
 
     if (!success) {
       const query = Challenge.find({})
@@ -52,7 +63,7 @@ const getThreeChallenges = async (user, success) => {
         result = await query.exec();
       }
 
-      proposed.push(result);
+      newChallenges.push(result);
     }
 
     newLevel = user.level;
@@ -69,10 +80,10 @@ const getThreeChallenges = async (user, success) => {
       newLevel = user.level + 1;
       challenges = await query.where('level').in(newLevel).exec();
     }
-    proposed.push(challenges);
+    newChallenges.push(challenges);
   }
 
-  return { proposed, newLevel };
+  return { newChallenges, newLevel };
 };
 
 app.post('/results', async (req, res) => {
@@ -100,7 +111,7 @@ app.post('/results', async (req, res) => {
     // cospe se foi BOM ou RUIM e novas 3 challenges OK
     return res.status(201).send({ userSucceeded, newChallenges });
   } catch (err) {
-    return res.status(500);
+    return res.status(500).send(err);
   }
 });
 
@@ -117,8 +128,8 @@ app.post('/pickChallenge', async (req, res) => {
 
     await user.save();
 
-    return res.status(201);
+    return res.status(201).send();
   } catch (err) {
-    return res.status(500);
+    return res.status(500).send(err);
   }
 });

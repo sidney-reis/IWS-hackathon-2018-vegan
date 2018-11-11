@@ -11,7 +11,8 @@ express.Router();
 module.exports = express.Router();
 
 // Set up default mongoose connection
-const mongoDB = 'mongodb://127.0.0.1/my_database';
+// const mongoDB = 'mongodb://127.0.0.1/my_database';
+const mongoDB = 'mongodb://admin1:admin1@ds159273.mlab.com:59273/go2vegan';
 mongoose.connect(mongoDB);
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
