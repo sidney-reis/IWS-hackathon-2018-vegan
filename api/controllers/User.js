@@ -152,7 +152,7 @@ app.post('/pickChallenge', async (req, res) => {
 
     await user.save();
 
-    return res.status(201).send();
+    return res.status(201).send(user);
   } catch (err) {
     return res.status(500).send(err);
   }
