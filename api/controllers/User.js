@@ -58,13 +58,18 @@ const getThreeChallenges = async (user, success) => {
     newLevel = user.level;
   } else {
     newLevel = user.completedLevelChallenges === 10 ? user.level + 1 : user.level;
+
     const query = Challenge.find({})
       .where('_id').nin(user.completedChallenges)
-      .where('level').in(newLevel)
       .limit(3);
 
-    const challenges = await query.exec();
-    proposed.push(challenges)
+    let challenges = await query.where('level').in(newLevel).exec();
+
+    if (challenges.length === 0) {
+      newLevel = user.level + 1;
+      challenges = await query.where('level').in(newLevel).exec();
+    }
+    proposed.push(challenges);
   }
 
   return { proposed, newLevel };
