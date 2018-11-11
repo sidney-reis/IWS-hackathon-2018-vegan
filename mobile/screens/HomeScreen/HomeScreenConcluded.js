@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import styled, { css } from '@emotion/native';
+import React from 'react';
+import styled from '@emotion/native';
 
 import Section from '../../components/Section';
 import Text from '../../components/Text';
@@ -28,6 +28,12 @@ const Impact = styled(Text)`
   margin: 30px 0px;
 `;
 
+const Result = styled(Text)`
+  ${h1};
+  font-size: 35px;
+  color: colors.primary.base;
+`;
+
 const HomeScreenChallengeProgress = ({
   currentChallenge,
   isSuccessful,
@@ -38,6 +44,7 @@ const HomeScreenChallengeProgress = ({
       <WeekNumber capitalize>Week</WeekNumber>
       <ChallengeTitle capitalize>{currentChallenge.title}</ChallengeTitle>
       <Icon name={isSuccessful ? 'success' : 'fail'} />
+      <Result>{success ? 'You got it!' : 'Almost there'}</Result>
       <Impact>{currentChallenge.impact}</Impact>
       <Button label="Select challenge" onPress={goToSelectChallenge} />
     </Section>
