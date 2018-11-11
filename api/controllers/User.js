@@ -5,6 +5,7 @@ const Challenge = require('../models/ChallengeModel');
 const app = express.Router();
 module.exports = app;
 
+
 app.post('/users', async (req, res) => {
   try {
     await User.init();
@@ -31,14 +32,15 @@ app.post('/user', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
+  console.log('Received login request: ', req.body);
   try {
     const user = await User.findOne({
       username: req.body.username,
       password: req.body.password,
-    }).exec();
+    }).populate('currentChallenge').populate('completedChallenges').exec();
 
     if (user) {
-      return res.status(200).send({ userId: user._id });
+      return res.status(200).send({ user });
     }
 
     return res.status(401).send('Nao show');
@@ -47,14 +49,14 @@ app.post('/login', async (req, res) => {
   }
 });
 
-const getThreeChallenges = async (user, success) => {
+const getThreeChallenges = async (user) => {
   const newChallenges = [];
   let newLevel;
   if (user.currentLevel === 6) {
     const vegan = await Challenge.findOne({ title: 'Vegan' }).exec();
     newChallenges.push(vegan);
 
-    if (!success) {
+    if (!user.lastChallengeSuccess) {
       const query = Challenge.find({})
         .where('level', 5)
         .limit(2);
@@ -95,6 +97,8 @@ app.post('/results', async (req, res) => {
     const { currentChallenge } = user;
     const userSucceeded = amount >= currentChallenge.amount;
 
+    user.lastChallengeSuccess = userSucceeded;
+
     if (userSucceeded) {
       // atualizar completed challenges OK
       const updatedCompletedChallenges = [currentChallenge, ...user.completedChallenges];
@@ -106,7 +110,7 @@ app.post('/results', async (req, res) => {
       user.completedLevelChallenges += 1;
     }
     // gerar 3 novas challenges
-    const { newChallenges, newUserLevel } = await getThreeChallenges(user, userSucceeded);
+    const { newChallenges, newUserLevel } = await getThreeChallenges(user);
 
     // atualizar level OK
     user.currentLevel = newUserLevel;
@@ -121,6 +125,19 @@ app.post('/results', async (req, res) => {
   }
 });
 
+app.post('/nextChallenges', async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await User.findById(userId);
+
+    const { newChallenges } = await getThreeChallenges(user);
+
+    return res.status(200).send(newChallenges);
+  } catch (err) {
+    return res.status(500).send(err);
+  }
+});
+
 app.post('/pickChallenge', async (req, res) => {
   try {
     const { userId, challengeId } = req.body;
@@ -128,13 +145,14 @@ app.post('/pickChallenge', async (req, res) => {
     const challenge = await Challenge.findById(challengeId);
 
     user.currentChallenge = challenge;
+    user.currentChallengeStart = Date.now();
     if (user.currentLevel === 6 && challenge.level !== 6) {
       user.currentLevel -= 1;
     }
 
     await user.save();
 
-    return res.status(201).send();
+    return res.status(201).send(user);
   } catch (err) {
     return res.status(500).send(err);
   }
