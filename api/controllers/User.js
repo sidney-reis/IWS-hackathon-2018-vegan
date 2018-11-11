@@ -7,6 +7,7 @@ module.exports = app;
 
 app.post('/users', async (req, res) => {
   try {
+    await User.init();
     const user = await User.create({ username: req.body.username, password: req.body.password });
     return res.status(201).send({ userId: user._id });
   } catch (err) {
