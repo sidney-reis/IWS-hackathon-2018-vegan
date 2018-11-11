@@ -5,6 +5,7 @@ const Challenge = require('../models/ChallengeModel');
 const app = express.Router();
 module.exports = app;
 
+
 app.post('/users', async (req, res) => {
   try {
     await User.init();
@@ -36,10 +37,10 @@ app.post('/login', async (req, res) => {
     const user = await User.findOne({
       username: req.body.username,
       password: req.body.password,
-    }).exec();
+    }).populate('currentChallenge').populate('completedChallenges').exec();
 
     if (user) {
-      return res.status(200).send({ userId: user._id });
+      return res.status(200).send({ user });
     }
 
     return res.status(401).send('Nao show');
