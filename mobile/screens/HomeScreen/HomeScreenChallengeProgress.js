@@ -28,8 +28,8 @@ const Description = styled(Text)`
   text-align: center;
 `;
 
-const HomeScreenChallengeProgress = ({ user, goToTips }) => {
-  const { currentChallenge, currentChallengeProgress } = user.state;
+const HomeScreenChallengeProgress = ({ user, goToTips}) => {
+  const { currentChallenge, currentChallengeProgress } = user;
 
   return (
     <Section>

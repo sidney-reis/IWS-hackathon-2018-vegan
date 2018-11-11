@@ -1,8 +1,7 @@
 import React from 'react';
 import { UIManager } from 'react-native';
+import { Provider } from 'react-redux';
 import AppNavigator from './navigation/AppNavigator';
-
-import { Provider } from 'unstated';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -13,7 +12,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Provider>
+      <Provider store={this.props.store}>
         <AppNavigator />
       </Provider>
     );
