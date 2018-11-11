@@ -130,6 +130,7 @@ app.post('/pickChallenge', async (req, res) => {
     const challenge = await Challenge.findById(challengeId);
 
     user.currentChallenge = challenge;
+    user.currentChallengeStart = Date.now();
     if (user.currentLevel === 6 && challenge.level !== 6) {
       user.currentLevel -= 1;
     }
