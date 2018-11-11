@@ -13,7 +13,7 @@ export default class UserContainer extends Container {
       amount: 3,
       theme: 'meat'
     },
-    currentChallengeProgress: 2,
+    currentChallengeProgress: [true, false, false],
     completedChallenges: []
   };
 

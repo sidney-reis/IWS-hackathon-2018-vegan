@@ -29,7 +29,7 @@ const Description = styled(Text)`
 `;
 
 const HomeScreenChallengeProgress = ({ user, goToTips }) => {
-  const { currentChallenge } = user.state;
+  const { currentChallenge, currentChallengeProgress } = user.state;
 
   return (
     <Section>
@@ -41,7 +41,7 @@ const HomeScreenChallengeProgress = ({ user, goToTips }) => {
         style={css`
           margin-top: 32px;
         `}
-        completed={2}
+        completed={currentChallengeProgress}
       />
     </Section>
   );
