@@ -125,7 +125,7 @@ app.post('/results', async (req, res) => {
   }
 });
 
-app.get('/nextChallenges', async (req, res) => {
+app.post('/nextChallenges', async (req, res) => {
   try {
     const { userId } = req.body;
     const user = await User.findById(userId);

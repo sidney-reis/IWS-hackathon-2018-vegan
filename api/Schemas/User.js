@@ -30,7 +30,7 @@ const UserSchema = new Schema({
   },
   lastChallengeSuccess: {
     type: Boolean,
-    default: false
+    default: false,
   },
   completedChallenges:
     [{ type: Schema.Types.ObjectId, ref: 'ChallengeModel' }],
