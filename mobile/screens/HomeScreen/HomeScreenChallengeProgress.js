@@ -8,7 +8,6 @@ import WeeklyProgressBar from '../../components/WeeklyProgressBar';
 
 import { h1, h2, body } from '../../assets/styles/textStyles';
 import colors from '../../constants/colors';
-import { alignContentCenter } from '../../assets/styles/layoutStyles';
 
 const WeekNumber = styled(Text)`
   ${h2};

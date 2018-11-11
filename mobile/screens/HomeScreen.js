@@ -9,9 +9,10 @@ import HomeScreenChallengeProgress from './HomeScreen/HomeScreenChallengeProgres
 import UserContainer from '../state/UserContainer';
 
 export default class HomeScreen extends Component {
-  goToTips = () => {
+  goToTips = challenge => {
+    console.log(challenge);
     const { navigation } = this.props;
-    navigation.navigate('ChallengeTips');
+    navigation.navigate('ChallengeTips', { challenge });
   };
 
   render() {
@@ -21,7 +22,10 @@ export default class HomeScreen extends Component {
           <ScreenContainer>
             <HomeScreenUserDetail user={user} />
             <HomeScreenTip tip="Chestnuts are rich in protein and vitamin D, important for calcium absorption." />
-            <HomeScreenChallengeProgress user={user} goToTips={this.goToTips} />
+            <HomeScreenChallengeProgress
+              user={user}
+              goToTips={() => this.goToTips(user.state.currentChallenge)}
+            />
           </ScreenContainer>
         )}
       </Subscribe>
