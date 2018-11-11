@@ -6,12 +6,13 @@ import FormInput from '../components/FormInput';
 import Button from '../components/Button';
 import Logo from '../components/Logo';
 import FormContainer from '../components/FormContainer';
+import LoginContainer from '../state/UserContainer';
+import UserService from '../services/User';
 
-export default class LoginScreen extends Component {
+class LoginScreen extends Component {
   state = {
     username: '',
     password: '',
-    isRequesting: false,
     error: null
   };
 
@@ -27,27 +28,20 @@ export default class LoginScreen extends Component {
     const { username, password } = this.state;
     const { navigation } = this.props;
 
-    this.setState({ isRequesting: true }, async () => {
-      //  TO-DO: call API
-      try {
-        const responseMock = await Promise.resolve({
-          success: true,
-          data: { token: 'myToken' }
-        });
-        console.log(navigation);
-        navigation.navigate('Main', {
-          token: responseMock.data.token
-        });
-      } catch (error) {
-        this.setState({ error });
-      } finally {
-        this.setState({ isRequesting: false });
-      }
-    });
+    this.props.startLoading();
+    try {
+      const resp = await UserService.login({username, password});
+      this.props.setUser(resp);
+      navigation.navigate('Main');
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.props.stopLoading();
+    }
   };
 
   render() {
-    const { username, password, isRequesting } = this.state;
+    const { username, password } = this.state;
     return (
       <ScreenContainer
         style={css`
@@ -85,3 +79,5 @@ export default class LoginScreen extends Component {
     );
   }
 }
+
+export default LoginContainer(LoginScreen);

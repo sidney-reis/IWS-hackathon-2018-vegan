@@ -1,22 +1,22 @@
-import { Container } from 'unstated';
+import { connect } from 'react-redux';
+import { startLoading, stopLoading } from '../actions/loading';
+import { setUser } from '../actions/users';
 
-export default class UserContainer extends Container {
-  state = {
-    username: 'jorge_antonio',
-    currentLevel: 0,
-    completedLevelChallenges: 2,
-    currentChallenge: {
-      title: 'Cows are friends',
-      description: 'Do not eat red meat for at least 3 days this week.',
-      impact:
-        'You eat 30% less animal base products, this corresponds to 150 liters of water saved',
-      amount: 3,
-      theme: 'meat'
-    },
-    currentChallengeProgress: [true, false, false],
-    completedChallenges: []
-  };
+const mapStateToProps = (state) => ({
+  loading: state.loading,
+  user: state.user,
+});
 
-  // TODO: implement fetch
-  fetchUser() {}
-}
+const mapDispatchToProps = dispatch => ({
+  startLoading: () => {
+    dispatch(startLoading());
+  },
+  stopLoading: () => {
+    dispatch(stopLoading());
+  },
+  setUser: (user) => {
+    dispatch(setUser(user))
+  },
+});
+
+export default WrappedComponent => connect(mapStateToProps, mapDispatchToProps)(WrappedComponent);
