@@ -35,6 +35,12 @@ export default class HomeScreen extends Component {
     navigation.navigate('ChallengeTips', { challenge });
   };
 
+  goToSelectChallenge = challenge => {
+    console.log(challenge);
+    const { navigation } = this.props;
+    navigation.navigate('ChallengeTips', { challenge });
+  };
+
   onGiveFeedback = success => {
     this.setState(
       state => ({
@@ -68,15 +74,19 @@ export default class HomeScreen extends Component {
     const currentDay = dayjs().diff(startDate, 'days');
     const isComplete = true;
 
+    const hasPendingDays = currentDay - user.currentChallengeProgress > 0;
+
     console.log(currentDay);
 
     return (
       <ScreenContainer>
         <HomeScreenUserDetail
           user={user}
-          collapsed={currentDay - user.currentChallengeProgress > 0}
+          collapsed={hasPendingDays || isComplete}
         />
-        <HomeScreenTip tip="Chestnuts are rich in protein and vitamin D, important for calcium absorption." />
+        {!hasPendingDays && !isComplete && (
+          <HomeScreenTip tip="Chestnuts are rich in protein and vitamin D, important for calcium absorption." />
+        )}
         {!isComplete && (
           <HomeScreenChallengeProgress
             user={user}
@@ -88,6 +98,7 @@ export default class HomeScreen extends Component {
         {isComplete && (
           <HomeScreenConcluded
             currentChallenge={user.currentChallenge}
+            goToSelectChallenge={this.goToSelectChallenge}
             isSuccessfull={true}
           />
         )}

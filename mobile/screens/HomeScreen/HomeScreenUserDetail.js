@@ -29,7 +29,7 @@ const UserDetail = ({ user, collapsed }) => {
   const { username, completedChallenges } = user;
 
   return (
-    <Section horizontal={collapsed}>
+    <Section horizontal={collapsed} hasShadow={collapsed}>
       <Avatar
         style={css`
           margin-top: 20px;

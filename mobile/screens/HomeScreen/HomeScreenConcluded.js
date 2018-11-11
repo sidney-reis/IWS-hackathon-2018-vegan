@@ -21,12 +21,25 @@ const ChallengeTitle = styled(Text)`
   margin-bottom: 13px;
 `;
 
-const HomeScreenChallengeProgress = ({ currentChallenge, isSuccessful }) => {
+const Impact = styled(Text)`
+  ${body};
+  text-align: center;
+  font-size: 16px;
+  margin: 30px 0px;
+`;
+
+const HomeScreenChallengeProgress = ({
+  currentChallenge,
+  isSuccessful,
+  goToSelectChallenge
+}) => {
   return (
     <Section>
       <WeekNumber capitalize>Week</WeekNumber>
       <ChallengeTitle capitalize>{currentChallenge.title}</ChallengeTitle>
       <Icon name={isSuccessful ? 'success' : 'fail'} />
+      <Impact>{currentChallenge.impact}</Impact>
+      <Button label="Select challenge" onPress={goToSelectChallenge} />
     </Section>
   );
 };
