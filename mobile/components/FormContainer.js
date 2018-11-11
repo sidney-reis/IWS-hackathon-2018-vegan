@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from '@emotion/native';
 
-import colors from '../constants/Colors';
+import colors from '../constants/colors';
 
 const Container = styled.View`
   width: 80%;

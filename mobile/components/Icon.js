@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/native';
 
 import Image from './Image';
-import colors from '../constants/Colors';
+import colors from '../constants/colors';
 import icons from '../assets/icons';
 
 const IconContainer = styled.TouchableOpacity`
@@ -19,7 +19,12 @@ const Icon = ({ onPress, style, size = 32, name }) => {
   const source = icons[name];
 
   return (
-    <IconContainer style={style} onPress={onPress} size={size}>
+    <IconContainer
+      style={style}
+      onPress={onPress}
+      size={size}
+      activeOpacity={0.5}
+    >
       <IconImage size={size} source={source} resizeMode="contain" />
     </IconContainer>
   );
