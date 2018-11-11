@@ -1,9 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import styled from '@emotion/native';
 
-import WeekScreen from '../screens/WeekScreen';
-import ResultScreen from '../screens/ResultScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ChallengeTips from '../screens/ChallengeTipsScreen';
 
@@ -32,12 +29,6 @@ export default createStackNavigator(
           />
         )
       })
-    },
-    Week: {
-      screen: WeekScreen
-    },
-    Result: {
-      screen: ResultScreen
     }
   },
   {

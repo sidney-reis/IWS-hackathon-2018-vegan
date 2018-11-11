@@ -20,7 +20,7 @@ export default class HomeScreen extends Component {
       <Subscribe to={[UserContainer]}>
         {user => (
           <ScreenContainer>
-            <HomeScreenUserDetail user={user} />
+            <HomeScreenUserDetail user={user} collapsed />
             <HomeScreenTip tip="Chestnuts are rich in protein and vitamin D, important for calcium absorption." />
             <HomeScreenChallengeProgress
               user={user}

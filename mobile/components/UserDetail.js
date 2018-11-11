@@ -2,15 +2,15 @@ import React from 'react';
 import { LayoutAnimation } from 'react-native';
 import styled, { css } from '@emotion/native';
 
-import { h1, h3 } from '../../assets/styles/textStyles';
-import colors from '../../constants/colors';
+import { h1, h3 } from '../assets/styles/textStyles';
+import colors from '../constants/colors';
 
-import Avatar from '../../components/Avatar';
-import Section from '../../components/Section';
-import Text from '../../components/Text';
+import Avatar from '../components/Avatar';
+import Section from '../components/Section';
+import Text from '../components/Text';
 
 const TextWrapper = styled.View`
-  margin-left: ${props => (props.collapsed ? 20 : 0) + 'px'};
+  margin-left: ${props => (props.horizontal ? 20 : 0) + 'px'};
 `;
 
 const Username = styled(Text)`
@@ -25,19 +25,19 @@ const CompletedChallenges = styled(Text)`
   font-size: 17px;
 `;
 
-const UserDetail = ({ user, collapsed }) => {
+const UserDetail = ({ user, horizontal }) => {
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   const { username, completedChallenges } = user.state;
 
   return (
-    <Section collapsed={collapsed}>
+    <Section horizontal={horizontal}>
       <Avatar
         style={css`
           margin-top: 20px;
         `}
-        size={collapsed ? Avatar.SIZES.small : Avatar.SIZES.base}
+        size={horizontal ? Avatar.SIZES.small : Avatar.SIZES.base}
       />
-      <TextWrapper collapsed={collapsed}>
+      <TextWrapper horizontal={horizontal}>
         <Username>{username}</Username>
         <CompletedChallenges>{`${
           completedChallenges.length

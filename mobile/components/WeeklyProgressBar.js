@@ -22,7 +22,7 @@ const WeeklyProgressBar = ({ style, completed }) => {
   return (
     <Container style={style}>
       {completed.map((success, index) => (
-        <Counter success={success} />
+        <Counter key={index} success={success} />
       ))}
 
       {[...Array(7 - completed.length)].map((e, index) => (
