@@ -34,8 +34,8 @@ const HomeScreenChallengeProgress = ({ user, goToTips}) => {
   return (
     <Section>
       <WeekNumber capitalize>Week</WeekNumber>
-      <ChallengeTitle capitalize>{currentChallenge.title}</ChallengeTitle>
-      <Description>{currentChallenge.description}</Description>
+      <ChallengeTitle capitalize>{currentChallenge ? currentChallenge.title : ''}</ChallengeTitle>
+      <Description>{currentChallenge ? currentChallenge.description : ''}</Description>
       <Button label="Tips" onPress={goToTips} />
       <WeeklyProgressBar
         style={css`

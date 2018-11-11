@@ -1,6 +1,6 @@
 import { Api } from './Instances';
 
-export default class User {
+export default class Challenge {
   static getInitialChallenges() {
     const request = {
       method: 'GET',
@@ -15,13 +15,27 @@ export default class User {
   static pickChallenge({ userId, challengeId }) {
     const request = {
       method: 'POST',
-      url: '/login',
+      url: '/pickChallenge',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: {
+      data: {
         userId,
         challengeId,
+      }
+    }
+    return Api(request);
+  }
+
+  static nextChallenges({ userId }) {
+    const request = {
+      method: 'POST',
+      url: '/nextChallenges',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        userId,
       }
     }
     return Api(request);

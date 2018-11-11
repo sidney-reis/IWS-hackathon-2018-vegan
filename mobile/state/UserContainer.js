@@ -4,7 +4,7 @@ import { setUser } from '../actions/users';
 
 const mapStateToProps = (state) => ({
   loading: state.loading,
-  user: state.user,
+  user: state.users.user,
 });
 
 const mapDispatchToProps = dispatch => ({
