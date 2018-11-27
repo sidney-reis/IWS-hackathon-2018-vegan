@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { SecureStore } from 'expo';
-import dayjs from 'dayjs';
 
 import ScreenContainer from '../components/ScreenContainer';
 import HomeScreenUserDetail from './HomeScreen/HomeScreenUserDetail';
@@ -15,23 +14,23 @@ class HomeScreen extends Component {
     currentChallengeProgress: 0,
     currentChallengeSuccess: 0,
     newChallenges: [],
-    questionsLeft: 7
+    questionsLeft: 7,
   };
 
   async componentDidMount() {
     const currentChallengeSuccess = await SecureStore.getItemAsync(
-      `${this.props.user._id}currentChallengeSuccess`
+      `${this.props.user._id}currentChallengeSuccess`,
     );
     const currentChallengeProgress = await SecureStore.getItemAsync(
-      `${this.props.user._id}currentChallengeProgress`
+      `${this.props.user._id}currentChallengeProgress`,
     );
     this.setState({
       currentChallengeSuccess: Number(currentChallengeSuccess),
-      currentChallengeProgress: Number(currentChallengeProgress)
+      currentChallengeProgress: Number(currentChallengeProgress),
     });
   }
 
-  goToTips = challenge => {
+  goToTips = (challenge) => {
     const { navigation } = this.props;
     navigation.navigate('ChallengeTips', { challenge });
   };
@@ -52,25 +51,25 @@ class HomeScreen extends Component {
         try {
           await SecureStore.setItemAsync(
             `${this.props.user._id}currentChallengeProgress`,
-            `${this.state.currentChallengeProgress}`
+            `${this.state.currentChallengeProgress}`,
           );
 
           if (success) {
             const currentChallengeSuccess = this.state.currentChallengeSuccess;
             this.setState(
               state => ({
-                currentChallengeSuccess: state.currentChallengeSuccess + 1
+                currentChallengeSuccess: state.currentChallengeSuccess + 1,
               }),
               async () => {
                 try {
                   await SecureStore.setItemAsync(
                     `${this.props.user._id}currentChallengeSuccess`,
-                    `${currentChallengeSuccess + 1}`
+                    `${currentChallengeSuccess + 1}`,
                   );
                 } catch (err) {
                   console.log(err);
                 }
-              }
+              },
             );
           }
           if (!this.state.questionsLeft) {
@@ -80,18 +79,13 @@ class HomeScreen extends Component {
         } catch (err) {
           console.log(err);
         }
-      }
+      },
     );
   };
 
   render() {
     const user = { ...this.props.user, ...this.state };
     const { questionsLeft } = this.state;
-
-    // const startDate = dayjs(user.currentChallengeStart);
-    // const currentDay = dayjs().diff(startDate, 'days');
-    // const isComplete = currentDay >= 7;
-    // const isComplete = true;
 
     return (
       <ScreenContainer>
