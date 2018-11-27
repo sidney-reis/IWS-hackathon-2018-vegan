@@ -37,7 +37,6 @@ class HomeScreen extends Component {
   };
 
   goToSelectChallenge = () => {
-    console.log(this.state.newChallenges);
     const { navigation } = this.props;
     this.setState({ questionsLeft: 7, currentChallengeProgress: 0, currentChallengeSuccess: 0 });
     navigation.navigate('ChallengeSelect', { challengesToPick: this.state.newChallenges });
@@ -51,7 +50,6 @@ class HomeScreen extends Component {
       }),
       async () => {
         try {
-          console.log(`${this.props.user._id}currentChallengeProgress`);
           await SecureStore.setItemAsync(
             `${this.props.user._id}currentChallengeProgress`,
             `${this.state.currentChallengeProgress}`
@@ -64,7 +62,6 @@ class HomeScreen extends Component {
                 currentChallengeSuccess: state.currentChallengeSuccess + 1
               }),
               async () => {
-                console.log(`${this.props.user._id}currentChallengeSuccess`);
                 try {
                   await SecureStore.setItemAsync(
                     `${this.props.user._id}currentChallengeSuccess`,
@@ -113,7 +110,6 @@ class HomeScreen extends Component {
             onGiveFeedback={this.onGiveFeedback}
           />
         )}
-        {console.log('MEMES', !questionsLeft && user.currentChallenge.amount, user.currentChallengeSuccess)}
         {!questionsLeft && (
           <HomeScreenConcluded
             currentChallenge={user.currentChallenge}

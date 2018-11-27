@@ -32,7 +32,6 @@ app.post('/user', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  console.log('Received login request: ', req.body);
   try {
     const user = await User.findOne({
       username: req.body.username,

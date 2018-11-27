@@ -57,7 +57,6 @@ class HomeScreenChallengeProgress extends Component {
       <Section>
         <WeekNumber capitalize>Week</WeekNumber>
         <ChallengeTitle capitalize>{currentChallenge.title}</ChallengeTitle>
-        {console.log(isSuccessful)}
         <Icon name={isSuccessful ? 'success' : 'fail'} />
         <Titlao capitalize>{isSuccessful ? 'You got it!' : 'Almost there!'}</Titlao>
         <Impact>{currentChallenge.impact}</Impact>

@@ -28,7 +28,6 @@ class ChallengeSelectScreen extends Component {
     try {
       this.props.startLoading();
       const userId = this.props.user._id;
-      console.log('AAA', userId, challenge._id)
       const resp = await ChallengesServices.pickChallenge({userId, challengeId: challenge._id});
       this.props.setUser(resp.data)
       this.props.stopLoading();
