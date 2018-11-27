@@ -38,9 +38,9 @@ const HomeScreenChallengeProgress = ({
   user,
   goToTips,
   onGiveFeedback,
-  currentDay
+  questionsLeft
 }) => {
-  let { currentChallenge, currentChallengeProgress } = user;
+  const { currentChallenge, currentChallengeProgress } = user;
 
   const ordinals = [
     'first',
@@ -52,14 +52,12 @@ const HomeScreenChallengeProgress = ({
     'last'
   ];
 
-  const hasPendingQuestions = currentDay - currentChallengeProgress > 0;
-
   return (
     <Section>
       <WeekNumber capitalize>Week</WeekNumber>
       <ChallengeTitle capitalize>{currentChallenge ? currentChallenge.title : ''}</ChallengeTitle>
       <Description>{currentChallenge ? currentChallenge.description : ''}</Description>
-      {hasPendingQuestions && (
+      {questionsLeft && (
         <Fragment>
           <Question>{`How was your ${
             ordinals[currentChallengeProgress]
@@ -69,20 +67,20 @@ const HomeScreenChallengeProgress = ({
               margin-bottom: 10px;
             `}
             label="I got it!"
-            onPress={() => onGiveFeedback(true, currentDay - currentChallengeProgress === 1)}
+            onPress={() => onGiveFeedback(true)}
           />
           <Button
             style={css`
               margin-bottom: 10px;
             `}
             label="Not yet, but I will!!"
-            onPress={() => onGiveFeedback(false, currentDay - currentChallengeProgress === 1)}
+            onPress={() => onGiveFeedback(false)}
             color="secondary"
             variant="darker"
           />
         </Fragment>
       )}
-      {!hasPendingQuestions && <Button label="Tips" onPress={goToTips} />}
+      {!questionsLeft && <Button label="Tips" onPress={goToTips} />}
       <WeeklyProgressBar
         style={css`
           margin-top: 32px;

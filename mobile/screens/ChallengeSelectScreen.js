@@ -54,7 +54,7 @@ class ChallengeSelectScreen extends Component {
                 height: 140px;
               `}
             >
-              <Title capitalize>{item.title}</Title>
+              <Title capitalize>{item.title || ''}</Title>
               <Description>{item.description}</Description>
             </Card>
           )}

@@ -15,7 +15,7 @@ class HomeScreen extends Component {
     currentChallengeProgress: 0,
     currentChallengeSuccess: 0,
     newChallenges: [],
-    incrementerForTest: 0
+    questionsLeft: 7
   };
 
   async componentDidMount() {
@@ -33,22 +33,25 @@ class HomeScreen extends Component {
 
   goToTips = challenge => {
     const { navigation } = this.props;
-    this.setState(state => ({ incrementerForTest: state.incrementerForTest + 1}))
+    navigation.navigate('ChallengeTips', { challenge });
   };
 
   goToSelectChallenge = () => {
     console.log(this.state.newChallenges);
     const { navigation } = this.props;
+    this.setState({ questionsLeft: 7, currentChallengeProgress: 0, currentChallengeSuccess: 0 });
     navigation.navigate('ChallengeSelect', { challengesToPick: this.state.newChallenges });
   };
 
-  onGiveFeedback = (success, isLast) => {
+  onGiveFeedback = (success) => {
     this.setState(
       state => ({
         currentChallengeProgress: state.currentChallengeProgress + 1,
+        questionsLeft: state.questionsLeft - 1,
       }),
       async () => {
         try {
+          console.log(`${this.props.user._id}currentChallengeProgress`);
           await SecureStore.setItemAsync(
             `${this.props.user._id}currentChallengeProgress`,
             `${this.state.currentChallengeProgress}`
@@ -61,6 +64,7 @@ class HomeScreen extends Component {
                 currentChallengeSuccess: state.currentChallengeSuccess + 1
               }),
               async () => {
+                console.log(`${this.props.user._id}currentChallengeSuccess`);
                 try {
                   await SecureStore.setItemAsync(
                     `${this.props.user._id}currentChallengeSuccess`,
@@ -72,10 +76,9 @@ class HomeScreen extends Component {
               }
             );
           }
-          if(isLast) {
-            console.log('>>>>>>>> last:', isLast);
-            const resp = await UserService.weekResult({userId: this.props.user._id, amount: this.state.currentChallengeSuccess });
-            this.setState({ newChallenges: resp.data.newChallenges });
+          if (!this.state.questionsLeft) {
+            const resp = await UserService.weekResult({ userId: this.props.user._id, amount: this.state.currentChallengeSuccess });
+            this.setState({ newChallenges: resp.data.newChallenges[0] });
           }
         } catch (err) {
           console.log(err);
@@ -86,37 +89,36 @@ class HomeScreen extends Component {
 
   render() {
     const user = { ...this.props.user, ...this.state };
+    const { questionsLeft } = this.state;
 
-    const startDate = dayjs(user.currentChallengeStart);
-    const currentDay = dayjs().diff(startDate, 'days');
-    const isComplete = currentDay  + user.incrementerForTest >= 7;
-    // console.warn(isComplete)
+    // const startDate = dayjs(user.currentChallengeStart);
+    // const currentDay = dayjs().diff(startDate, 'days');
+    // const isComplete = currentDay >= 7;
     // const isComplete = true;
-
-    const hasPendingDays = currentDay - user.currentChallengeProgress > 0;
 
     return (
       <ScreenContainer>
         <HomeScreenUserDetail
           user={user}
-          collapsed={hasPendingDays || isComplete}
+          collapsed={!questionsLeft}
         />
-        {!hasPendingDays && !isComplete && (
+        {!!questionsLeft && (
           <HomeScreenTip tip="Chestnuts are rich in protein and vitamin D, important for calcium absorption." />
         )}
-        {!isComplete && (
+        {!!questionsLeft && (
           <HomeScreenChallengeProgress
             user={user}
-            currentDay={currentDay}
+            questionsLeft={questionsLeft}
             goToTips={() => this.goToTips(user.currentChallenge)}
             onGiveFeedback={this.onGiveFeedback}
           />
         )}
-        {isComplete && !hasPendingDays && (
+        {console.log('MEMES', !questionsLeft && user.currentChallenge.amount, user.currentChallengeSuccess)}
+        {!questionsLeft && (
           <HomeScreenConcluded
             currentChallenge={user.currentChallenge}
             goToSelectChallenge={this.goToSelectChallenge}
-            isSuccessfull={
+            isSuccessful={
               user.currentChallenge.amount <= user.currentChallengeSuccess
             }
           />

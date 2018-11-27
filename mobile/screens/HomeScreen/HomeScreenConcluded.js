@@ -31,10 +31,20 @@ const Impact = styled(Text)`
   margin: 30px 0px;
 `;
 
+const Titlao = styled(Text)`
+  margin-top: 15px;
+  font-size: 35px;
+  font-weight: 900;
+  color: ${colors.primary.base};
+`;
+
+
 class HomeScreenChallengeProgress extends Component {
-  componentDidMount() {
-    SecureStore.deleteItemAsync(`${this.props.user._id}currentChallengeProgress`);
-    SecureStore.deleteItemAsync(`${this.props.user._id}currentChallengeSuccess`);
+  async componentDidMount() {
+    setTimeout(async () => {
+      await SecureStore.deleteItemAsync(`${this.props.user._id}currentChallengeProgress`);
+      await SecureStore.deleteItemAsync(`${this.props.user._id}currentChallengeSuccess`);
+    }, 1000);
   }
 
   render() {
@@ -47,7 +57,9 @@ class HomeScreenChallengeProgress extends Component {
       <Section>
         <WeekNumber capitalize>Week</WeekNumber>
         <ChallengeTitle capitalize>{currentChallenge.title}</ChallengeTitle>
+        {console.log(isSuccessful)}
         <Icon name={isSuccessful ? 'success' : 'fail'} />
+        <Titlao capitalize>{isSuccessful ? 'You got it!' : 'Almost there!'}</Titlao>
         <Impact>{currentChallenge.impact}</Impact>
         <Button label="Select challenge" onPress={goToSelectChallenge} />
       </Section>
