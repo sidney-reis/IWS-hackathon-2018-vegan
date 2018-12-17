@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FlatList, ActivityIndicator } from 'react-native';
 import ScreenContainer from '../components/ScreenContainer';
 import ProfileHeader from './ProfileScreen/ProfileHeader';
-import UserContainer from '../state/UserContainer';
+import UserContainer from '../containers/UserContainer';
 import Card from '../components/Card';
 import styled, { css } from '@emotion/native';
 import { alignContentCenter } from '../assets/styles/layoutStyles';

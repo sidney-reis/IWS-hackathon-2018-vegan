@@ -9,8 +9,8 @@ export default class User {
         'Content-Type': 'application/json',
       },
       data: {
-        userId: id
-      }
+        userId: id,
+      },
     };
     return Api(request);
   }
@@ -25,8 +25,8 @@ export default class User {
       data: {
         username,
         password,
-      }
-    }
+      },
+    };
     return Api(request);
   }
 
@@ -40,22 +40,34 @@ export default class User {
       data: {
         username,
         password,
-      }
-    }
+      },
+    };
     return Api(request);
   }
 
-  static weekResult({userId, amount}) {
+  static getUserStatus({ userId }) {
     const request = {
-      method: 'POST',
-      url: '/results',
+      method: 'GET',
+      url: '/userStatus',
       headers: {
         'Content-Type': 'application/json',
+        userId,
+      },
+    };
+    return Api(request);
+  }
+
+  static postUserAnswers({ userId, answers }) {
+    const request = {
+      method: 'POST',
+      url: '/userAnswers',
+      headers: {
+        'Content-Type': 'application/json',
+        userId,
       },
       data: {
-        userId,
-        amount,
-      }
+        answers,
+      },
     };
     return Api(request);
   }

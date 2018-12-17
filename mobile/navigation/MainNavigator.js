@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../containers/HomeScreenContainer';
 import ChallengeTips from '../screens/ChallengeTipsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ChallengeSelectScreen from '../screens/ChallengeSelectScreen';
@@ -28,8 +28,8 @@ export default createStackNavigator(
             size={32}
             onPress={() => navigation.navigate('Profile')}
           />
-        )
-      })
+        ),
+      }),
     },
     ChallengeTips: {
       screen: ChallengeTips,
@@ -41,8 +41,8 @@ export default createStackNavigator(
             onPress={() => navigation.pop()}
             label="Back"
           />
-        )
-      })
+        ),
+      }),
     },
     Profile: {
       screen: ProfileScreen,
@@ -54,8 +54,8 @@ export default createStackNavigator(
             onPress={() => navigation.pop()}
             label="Back"
           />
-        )
-      })
+        ),
+      }),
     },
     ChallengeSelect: {
       screen: ChallengeSelectScreen,
@@ -66,28 +66,28 @@ export default createStackNavigator(
             size={22}
             onPress={() => navigation.navigate('Login')}
           />
-        )
-      })
+        ),
+      }),
     },
   },
   {
     initialRouteName: 'Home',
     navigationOptions: {
       headerStyle: {
-        elevation: 0
+        elevation: 0,
       },
       headerLeftContainerStyle: {
-        marginLeft: 12
+        marginLeft: 12,
       },
       headerRightContainerStyle: {
-        marginRight: 12
+        marginRight: 12,
       },
       headerTitleContainerStyle: {
         flex: 1,
         alignContent: 'center',
         justifyContent: 'center',
-        marginTop: 10
-      }
-    }
-  }
+        marginTop: 10,
+      },
+    },
+  },
 );

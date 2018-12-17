@@ -6,7 +6,7 @@ import FormInput from '../components/FormInput';
 import Button from '../components/Button';
 import Logo from '../components/Logo';
 import FormContainer from '../components/FormContainer';
-import LoginContainer from '../state/UserContainer';
+import LoginContainer from '../containers/UserContainer';
 import UserService from '../services/User';
 import ChallengeService from '../services/Challenge';
 import Text from '../components/Text';
@@ -15,14 +15,14 @@ class LoginScreen extends Component {
   state = {
     username: '',
     password: '',
-    error: null
+    error: null,
   };
 
-  onUpdateUsername = username => {
+  onUpdateUsername = (username) => {
     this.setState({ username });
   };
 
-  onUpdatePassword = password => {
+  onUpdatePassword = (password) => {
     this.setState({ password });
   };
 
@@ -32,17 +32,17 @@ class LoginScreen extends Component {
 
     this.props.startLoading();
     try {
-      const resp = await UserService.login({username, password});
-      const {user} =  resp.data;
+      const resp = await UserService.login({ username, password });
+      const { user } = resp.data;
       this.props.setUser(user);
       if (user.currentLevel === 0 && !user.currentChallenge) {
         const resp = await ChallengeService.getInitialChallenges();
         this.props.stopLoading();
-        console
-        navigation.navigate('ChallengeSelect', {challengesToPick: resp.data.challenges});
+        console;
+        navigation.navigate('ChallengeSelect', { challengesToPick: resp.data.challenges });
       } else if (!user.currentChallenge) {
         const resp = await ChallengeService.nextChallenges();
-        navigation.navigate('ChallengeSelect', {challengesToPick: resp.data.challenges});
+        navigation.navigate('ChallengeSelect', { challengesToPick: resp.data.challenges });
       } else {
         this.props.stopLoading();
         navigation.navigate('Home');
@@ -54,7 +54,7 @@ class LoginScreen extends Component {
   };
 
   render() {
-    const { username, password } = this.state;
+    const { username, password, error } = this.state;
     return (
       <ScreenContainer
         style={css`
@@ -70,26 +70,28 @@ class LoginScreen extends Component {
             margin-bottom: 47;
           `}
         />
-        {this.props.loading ? <ActivityIndicator /> :
-        <FormContainer>
-          <FormInput
-            value={username}
-            placeholder="Username"
-            onChangeText={this.onUpdateUsername}
-          />
-          <FormInput
-            value={password}
-            placeholder="Password"
-            onChangeText={this.onUpdatePassword}
-            secureTextEntry
-          />
-        </FormContainer>}
+        {this.props.loading ? <ActivityIndicator />
+          : (
+            <FormContainer>
+              <FormInput
+                value={username}
+                placeholder="Username"
+                onChangeText={this.onUpdateUsername}
+              />
+              <FormInput
+                value={password}
+                placeholder="Password"
+                onChangeText={this.onUpdatePassword}
+                secureTextEntry
+              />
+            </FormContainer>
+          )}
         <Button
           onPress={this.onSubmitForm}
           label="Login"
           style={{ marginTop: 87 }}
         />
-        {!!this.state.error && <Text>Invalid username or password</Text>}
+        {!!error && <Text>Invalid username or password</Text>}
       </ScreenContainer>
     );
   }

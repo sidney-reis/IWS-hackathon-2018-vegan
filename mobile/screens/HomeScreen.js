@@ -5,29 +5,27 @@ import ScreenContainer from '../components/ScreenContainer';
 import HomeScreenUserDetail from './HomeScreen/HomeScreenUserDetail';
 import HomeScreenTip from './HomeScreen/HomeScreenTip';
 import HomeScreenChallengeProgress from './HomeScreen/HomeScreenChallengeProgress';
-import UserContainer from '../state/UserContainer';
 import HomeScreenConcluded from './HomeScreen/HomeScreenConcluded';
-import UserService from '../services/User';
 
-class HomeScreen extends Component {
+export default class HomeScreen extends Component {
   state = {
-    currentChallengeProgress: 0,
-    currentChallengeSuccess: 0,
-    newChallenges: [],
-    questionsLeft: 7,
+    // currentChallengeProgress: 0,
+    // currentChallengeSuccess: 0,
+    // newChallenges: [],
+    // questionsLeft: 7,
   };
 
   async componentDidMount() {
-    const currentChallengeSuccess = await SecureStore.getItemAsync(
-      `${this.props.user._id}currentChallengeSuccess`,
-    );
-    const currentChallengeProgress = await SecureStore.getItemAsync(
-      `${this.props.user._id}currentChallengeProgress`,
-    );
-    this.setState({
-      currentChallengeSuccess: Number(currentChallengeSuccess),
-      currentChallengeProgress: Number(currentChallengeProgress),
-    });
+    // const currentChallengeSuccess = await SecureStore.getItemAsync(
+    //   `${this.props.user._id}currentChallengeSuccess`,
+    // );
+    // const currentChallengeProgress = await SecureStore.getItemAsync(
+    //   `${this.props.user._id}currentChallengeProgress`,
+    // );
+    // this.setState({
+    //   currentChallengeSuccess: Number(currentChallengeSuccess),
+    //   currentChallengeProgress: Number(currentChallengeProgress),
+    // });
   }
 
   goToTips = (challenge) => {
@@ -37,7 +35,7 @@ class HomeScreen extends Component {
 
   goToSelectChallenge = () => {
     const { navigation } = this.props;
-    this.setState({ questionsLeft: 7, currentChallengeProgress: 0, currentChallengeSuccess: 0 });
+    // this.setState({ questionsLeft: 7, currentChallengeProgress: 0, currentChallengeSuccess: 0 });
     navigation.navigate('ChallengeSelect', { challengesToPick: this.state.newChallenges });
   };
 
@@ -73,8 +71,8 @@ class HomeScreen extends Component {
             );
           }
           if (!this.state.questionsLeft) {
-            const resp = await UserService.weekResult({ userId: this.props.user._id, amount: this.state.currentChallengeSuccess });
-            this.setState({ newChallenges: resp.data.newChallenges[0] });
+            await this.props.getWeekResult({ userId: this.props.user._id, amount: this.state.currentChallengeSuccess });
+            // this.setState({ newChallenges: resp.data.newChallenges[0] });
           }
         } catch (err) {
           console.log(err);
@@ -117,5 +115,3 @@ class HomeScreen extends Component {
     );
   }
 }
-
-export default UserContainer(HomeScreen);

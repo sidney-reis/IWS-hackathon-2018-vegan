@@ -1,0 +1,56 @@
+getUserStatus:
+
+Reponse Format:
+{
+  userNeedsToPickNewChallenge: Boolean,
+  newChallengesToPick: [Object],
+  wasUserSuccessOnLastChallenge: Boolean,
+  numberOfQuestionsToAsk: Number,
+  questionsToAsk: [{
+    dayNumber: Number,
+    text: String,
+  }],
+  currentDayOfChallenge: Number
+}
+
+
+Example:
+{
+  userNeedsToPickNewChallenge: false,
+  newChallengesToPick: [],
+  wasUserSuccessOnLastChallenge: false,
+  numberOfQuestionsToAsk: 2,
+  questionsToAsk: [
+    {
+      dayNumber: 3,
+      text: "How was your fourth day?",
+    },
+    {
+      dayNumber: 4,
+      text: "Did you eat your seeds this day?",
+    }
+  ],
+  currentDayOfChallenge: 5
+}
+
+======================
+
+postUserAnswers:
+
+Request Format:
+{
+  answers: [Number]
+}
+
+Reponse Format (user status, same as getUserStatus):
+{
+  userNeedsToPickNewChallenge: Boolean,
+  newChallengesToPick: [Object],
+  wasUserSuccessOnLastChallenge: Boolean,
+  numberOfQuestionsToAsk: Number,
+  questionsToAsk: [{
+    dayNumber: Number,
+    text: String,
+  }],
+  currentDayOfChallenge: Number
+}

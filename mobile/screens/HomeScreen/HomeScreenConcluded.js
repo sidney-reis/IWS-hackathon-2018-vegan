@@ -7,7 +7,7 @@ import Text from '../../components/Text';
 import Icon from '../../components/Icon';
 import Button from '../../components/Button';
 
-import UserContainer from '../../state/UserContainer';
+import UserContainer from '../../containers/UserContainer';
 
 import { h1, h2, body, h3 } from '../../assets/styles/textStyles';
 import colors from '../../constants/colors';
